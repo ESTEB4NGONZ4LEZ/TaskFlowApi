@@ -4,21 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class RolController : ControllerBase
+public class RolController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public RolController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
+    public RolController(IMediator mediator) : base(mediator) { }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateRolCommand command)
     {
-        var response = await _mediator.Send(command);
+        var response = await Mediator.Send(command);
         return CreatedAtAction(nameof(Create), new { id = response.RolId }, response);
     }
 }
