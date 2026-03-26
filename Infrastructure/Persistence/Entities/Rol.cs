@@ -5,6 +5,7 @@ public class Rol
     public int RolId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public List<UserRol> UserRols { get; set; }
 }

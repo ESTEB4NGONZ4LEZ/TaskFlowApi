@@ -6,7 +6,9 @@ public class RecordStateTask
     public int TaskId { get; set; }
     public int StateTaskId { get; set; }
     public DateTime CreatedAt { get; set; }
+    public int ChangedBy { get; set; }
 
     public Task Task { get; set; }
     public StateTask StateTask { get; set; }
+    public User ChangedByUser { get; set; }
 }
