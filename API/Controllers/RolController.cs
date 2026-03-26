@@ -1,5 +1,5 @@
-using Application.DTOs.Rol;
-using Application.UseCases.Rol;
+using Application.Features.Rol.Commands.CreateRol;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -8,17 +8,17 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class RolController : ControllerBase
 {
-    private readonly CreateRolUseCase _createRolUseCase;
+    private readonly IMediator _mediator;
 
-    public RolController(CreateRolUseCase createRolUseCase)
+    public RolController(IMediator mediator)
     {
-        _createRolUseCase = createRolUseCase;
+        _mediator = mediator;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateRolRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateRolCommand command)
     {
-        var response = await _createRolUseCase.ExecuteAsync(request);
+        var response = await _mediator.Send(command);
         return CreatedAtAction(nameof(Create), new { id = response.RolId }, response);
     }
 }
