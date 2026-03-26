@@ -4,20 +4,10 @@ using Infrastructure.Persistence.Mappers;
 
 namespace Infrastructure.Persistence.Repositories;
 
-public class RolRepository : IRolRepository
+public class RolRepository : GenericRepository<Entities.Rol, Rol>, IRolRepository
 {
-    private readonly MainContext _context;
+    public RolRepository(MainContext context) : base(context) { }
 
-    public RolRepository(MainContext context)
-    {
-        _context = context;
-    }
-
-    public async Task<Rol> CreateAsync(Rol rol)
-    {
-        var entity = RolMapper.ToEntity(rol);
-        await _context.Rols.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return RolMapper.ToDomain(entity);
-    }
+    protected override Rol ToDomain(Entities.Rol entity) => RolMapper.ToDomain(entity);
+    protected override Entities.Rol ToEntity(Rol domain) => RolMapper.ToEntity(domain);
 }
