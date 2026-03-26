@@ -1,3 +1,5 @@
+using Domain.Exceptions;
+
 namespace Domain.Entities;
 
 public class Rol
@@ -11,6 +13,19 @@ public class Rol
 
     public static Rol Create(string name, string description)
     {
+        var errors = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(name))
+            errors.Add("Name is required.");
+        else if (name.Length > 50)
+            errors.Add("Name must not exceed 50 characters.");
+
+        if (description?.Length > 150)
+            errors.Add("Description must not exceed 150 characters.");
+
+        if (errors.Any())
+            throw new ValidationException(errors);
+
         return new Rol
         {
             Name = name,

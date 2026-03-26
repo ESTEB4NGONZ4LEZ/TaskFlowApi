@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using API.Common;
+using Domain.Exceptions;
 
 namespace API.Middleware;
 
@@ -21,19 +22,23 @@ public class ExceptionMiddleware
         {
             await _next(context);
         }
+        catch (ValidationException ex)
+        {
+            await WriteResponseAsync(context, HttpStatusCode.BadRequest,
+                ApiResponse<object>.Fail("Validation failed", ex.Errors));
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);
-            await HandleExceptionAsync(context, ex);
+            await WriteResponseAsync(context, HttpStatusCode.InternalServerError,
+                ApiResponse<object>.Fail("An unexpected error occurred. Please try again later."));
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static async Task WriteResponseAsync(HttpContext context, HttpStatusCode statusCode, object response)
     {
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-        var response = ApiResponse<object>.Fail("An unexpected error occurred. Please try again later.");
+        context.Response.StatusCode = (int)statusCode;
 
         await context.Response.WriteAsync(JsonSerializer.Serialize(response, new JsonSerializerOptions
         {
