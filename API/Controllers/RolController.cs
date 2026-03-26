@@ -12,6 +12,6 @@ public class RolController : BaseController
     public async Task<IActionResult> Create([FromBody] CreateRolCommand command)
     {
         var response = await Mediator.Send(command);
-        return CreatedAtAction(nameof(Create), new { id = response.RolId }, response);
+        return CreatedResponse(nameof(Create), new { id = response.RolId }, response);
     }
 }
