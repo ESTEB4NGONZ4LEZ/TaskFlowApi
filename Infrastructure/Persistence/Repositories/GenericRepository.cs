@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
@@ -17,16 +18,20 @@ public abstract class GenericRepository<TEntity, TDomain>
 
     protected abstract TDomain ToDomain(TEntity entity);
     protected abstract TEntity ToEntity(TDomain domain);
+    protected abstract Expression<Func<TEntity, bool>> ById(int id);
 
     public virtual async Task<TDomain?> GetByIdAsync(int id)
     {
-        var entity = await _dbSet.FindAsync(id);
+        var entity = await _dbSet.AsNoTracking().FirstOrDefaultAsync(ById(id));
         return entity is null ? null : ToDomain(entity);
     }
 
+    public virtual async Task<bool> ExistsAsync(int id) =>
+        await _dbSet.AnyAsync(ById(id));
+
     public virtual async Task<IEnumerable<TDomain>> GetAllAsync()
     {
-        var entities = await _dbSet.ToListAsync();
+        var entities = await _dbSet.AsNoTracking().ToListAsync();
         return entities.Select(ToDomain);
     }
 
@@ -46,7 +51,7 @@ public abstract class GenericRepository<TEntity, TDomain>
 
     public virtual async Task InactivateAsync(int id)
     {
-        var entity = await _dbSet.FindAsync(id);
+        var entity = await _dbSet.FirstOrDefaultAsync(ById(id));
         if (entity is null) return;
 
         var property = typeof(TEntity).GetProperty("IsActive");
