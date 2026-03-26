@@ -22,7 +22,8 @@ public class RecordStateTaskConfiguration : IEntityTypeConfiguration<RecordState
 
         builder.HasOne(r => r.StateTask)
             .WithMany(s => s.RecordStateTasks)
-            .HasForeignKey(r => r.StateTaskId);
+            .HasForeignKey(r => r.StateTaskId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(r => r.ChangedByUser)
             .WithMany(u => u.RecordStateTasks)
