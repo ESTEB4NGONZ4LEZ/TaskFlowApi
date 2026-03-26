@@ -1,3 +1,4 @@
+using Domain.Ports;
 using Domain.Ports.Repositories;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
@@ -14,6 +15,7 @@ public static class InfrastructureExtensions
         services.AddDbContext<MainContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IRolRepository, RolRepository>();
 
         return services;

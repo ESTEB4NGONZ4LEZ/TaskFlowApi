@@ -30,20 +30,18 @@ public abstract class GenericRepository<TEntity, TDomain>
         return entities.Select(ToDomain);
     }
 
-    public virtual async Task<TDomain> CreateAsync(TDomain domain)
+    public virtual async Task<Func<TDomain>> CreateAsync(TDomain domain)
     {
         var entity = ToEntity(domain);
         await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
-        return ToDomain(entity);
+        return () => ToDomain(entity);
     }
 
-    public virtual async Task<TDomain> UpdateAsync(TDomain domain)
+    public virtual Task UpdateAsync(TDomain domain)
     {
         var entity = ToEntity(domain);
         _dbSet.Update(entity);
-        await _context.SaveChangesAsync();
-        return ToDomain(entity);
+        return Task.CompletedTask;
     }
 
     public virtual async Task InactivateAsync(int id)
@@ -53,6 +51,5 @@ public abstract class GenericRepository<TEntity, TDomain>
 
         var property = typeof(TEntity).GetProperty("IsActive");
         property?.SetValue(entity, false);
-        await _context.SaveChangesAsync();
     }
 }
