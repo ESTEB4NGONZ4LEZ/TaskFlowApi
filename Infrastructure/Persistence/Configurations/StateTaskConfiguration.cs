@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class StateTaskConfiguration : IEntityTypeConfiguration<StateTask>
+public class StateTaskConfiguration : IEntityTypeConfiguration<StateTaskEntity>
 {
-    public void Configure(EntityTypeBuilder<StateTask> builder)
+    public void Configure(EntityTypeBuilder<StateTaskEntity> builder)
     {
         builder.HasKey(s => s.StateTaskId);
         builder.Property(s => s.StateTaskId).ValueGeneratedOnAdd();

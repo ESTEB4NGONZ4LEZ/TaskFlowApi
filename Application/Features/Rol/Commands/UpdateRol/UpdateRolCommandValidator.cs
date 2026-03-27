@@ -2,7 +2,7 @@ using Application.Common;
 using Domain.Ports.Repositories;
 using FluentValidation;
 
-namespace Application.Features.Rol.Commands.UpdateRol;
+namespace Application.Features.Roles.Commands.UpdateRol;
 
 public class UpdateRolCommandValidator : AbstractValidator<UpdateRolCommand>
 {
@@ -16,7 +16,6 @@ public class UpdateRolCommandValidator : AbstractValidator<UpdateRolCommand>
             .Required()
             .MaxLength(50)
             .MustAsync(async (command, name, cancellation) => !await rolRepository.ExistsWithNameAsync(name, command.RolId))
-
             .WithMessage("A role with this name already exists.");
 
         RuleFor(x => x.Description)

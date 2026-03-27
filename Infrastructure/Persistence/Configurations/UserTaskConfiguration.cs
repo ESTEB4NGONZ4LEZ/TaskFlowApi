@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class UserTaskConfiguration : IEntityTypeConfiguration<UserTask>
+public class UserTaskConfiguration : IEntityTypeConfiguration<UserTaskEntity>
 {
-    public void Configure(EntityTypeBuilder<UserTask> builder)
+    public void Configure(EntityTypeBuilder<UserTaskEntity> builder)
     {
         builder.HasKey(ut => new { ut.TaskId, ut.UserId });
 

@@ -1,9 +1,10 @@
 using Application.DTOs.Rol;
+using Domain.Exceptions;
 using Domain.Ports;
 using Domain.Ports.Repositories;
 using MediatR;
 
-namespace Application.Features.Rol.Commands.UpdateRol;
+namespace Application.Features.Roles.Commands.UpdateRol;
 
 public class UpdateRolHandler : IRequestHandler<UpdateRolCommand, RolResponse>
 {
@@ -18,19 +19,14 @@ public class UpdateRolHandler : IRequestHandler<UpdateRolCommand, RolResponse>
 
     public async Task<RolResponse> Handle(UpdateRolCommand command, CancellationToken cancellationToken)
     {
-        var rol = await _rolRepository.GetByIdAsync(command.RolId);
+        var rol = await _rolRepository.GetByIdAsync(command.RolId)
+            ?? throw new NotFoundException("Rol", command.RolId);
 
         rol.Update(command.Name, command.Description);
 
         await _rolRepository.UpdateAsync(rol);
         await _unitOfWork.CommitAsync(cancellationToken);
 
-        return new RolResponse
-        {
-            RolId = rol.RolId,
-            Name = rol.Name,
-            Description = rol.Description,
-            CreatedAt = rol.CreatedAt
-        };
+        return new RolResponse(rol.RolId, rol.Name, rol.Description, rol.CreatedAt);
     }
 }

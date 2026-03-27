@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class TaskCommentConfiguration : IEntityTypeConfiguration<TaskComment>
+public class TaskCommentConfiguration : IEntityTypeConfiguration<TaskCommentEntity>
 {
-    public void Configure(EntityTypeBuilder<TaskComment> builder)
+    public void Configure(EntityTypeBuilder<TaskCommentEntity> builder)
     {
         builder.HasKey(tc => tc.TaskCommentId);
         builder.Property(tc => tc.TaskCommentId).ValueGeneratedOnAdd();

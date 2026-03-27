@@ -4,7 +4,7 @@ namespace Infrastructure.Persistence.Mappers;
 
 public static class RolMapper
 {
-    public static Entities.Rol ToEntity(Domain.Entities.Rol model) => new()
+    public static RolEntity ToEntity(Domain.Entities.Rol model) => new()
     {
         RolId = model.RolId,
         Name = model.Name,
@@ -12,6 +12,6 @@ public static class RolMapper
         CreatedAt = model.CreatedAt
     };
 
-    public static Domain.Entities.Rol ToDomain(Entities.Rol entity) =>
+    public static Domain.Entities.Rol ToDomain(RolEntity entity) =>
         Domain.Entities.Rol.Reconstitute(entity.RolId, entity.Name, entity.Description, entity.CreatedAt);
 }

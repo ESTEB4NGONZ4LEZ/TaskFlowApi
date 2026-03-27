@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class UserRolConfiguration : IEntityTypeConfiguration<UserRol>
+public class UserRolConfiguration : IEntityTypeConfiguration<UserRolEntity>
 {
-    public void Configure(EntityTypeBuilder<UserRol> builder)
+    public void Configure(EntityTypeBuilder<UserRolEntity> builder)
     {
         builder.HasKey(ur => new { ur.UserId, ur.RolId });
 

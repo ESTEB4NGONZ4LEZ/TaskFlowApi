@@ -1,6 +1,6 @@
 using API.DTOs.Rol;
-using Application.Features.Rol.Commands.CreateRol;
-using Application.Features.Rol.Commands.UpdateRol;
+using Application.Features.Roles.Commands.CreateRol;
+using Application.Features.Roles.Commands.UpdateRol;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

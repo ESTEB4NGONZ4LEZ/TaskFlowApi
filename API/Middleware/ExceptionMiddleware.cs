@@ -27,6 +27,11 @@ public class ExceptionMiddleware
             await WriteResponseAsync(context, HttpStatusCode.BadRequest,
                 ApiResponse<object>.Fail("Validation failed", ex.Errors));
         }
+        catch (NotFoundException ex)
+        {
+            await WriteResponseAsync(context, HttpStatusCode.NotFound,
+                ApiResponse<object>.Fail(ex.Message));
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);

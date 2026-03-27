@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class TaskPriorityConfiguration : IEntityTypeConfiguration<TaskPriority>
+public class TaskPriorityConfiguration : IEntityTypeConfiguration<TaskPriorityEntity>
 {
-    public void Configure(EntityTypeBuilder<TaskPriority> builder)
+    public void Configure(EntityTypeBuilder<TaskPriorityEntity> builder)
     {
         builder.HasKey(tp => tp.TaskPriorityId);
         builder.Property(tp => tp.TaskPriorityId).ValueGeneratedOnAdd();

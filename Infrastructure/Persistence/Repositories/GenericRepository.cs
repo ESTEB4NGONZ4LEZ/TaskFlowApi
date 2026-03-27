@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
@@ -54,7 +55,7 @@ public abstract class GenericRepository<TEntity, TDomain>
         var entity = await _dbSet.FirstOrDefaultAsync(ById(id));
         if (entity is null) return;
 
-        var property = typeof(TEntity).GetProperty("IsActive");
-        property?.SetValue(entity, false);
+        if (entity is IInactivatable inactivatable)
+            inactivatable.IsActive = false;
     }
 }

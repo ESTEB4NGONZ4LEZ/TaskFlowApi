@@ -1,10 +1,10 @@
-using Application.Features.Rol.Commands.CreateRol;
+using Application.Features.Roles.Commands.CreateRol;
 using Domain.Ports.Repositories;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Moq;
 
-namespace Test.Application.Features.Rol.Commands.CreateRol;
+namespace Test.Application.Features.Roles.Commands.CreateRol;
 
 public class CreateRolCommandValidatorTests
 {

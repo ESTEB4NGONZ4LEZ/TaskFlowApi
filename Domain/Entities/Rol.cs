@@ -6,12 +6,12 @@ public class Rol
 {
     public int RolId { get; private set; }
     public string Name { get; private set; }
-    public string Description { get; private set; }
+    public string? Description { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
     private Rol() { }
 
-    public static Rol Create(string name, string description)
+    public static Rol Create(string name, string? description)
     {
         var errors = new List<string>();
 
@@ -34,7 +34,7 @@ public class Rol
         };
     }
 
-    public void Update(string name, string description)
+    public void Update(string name, string? description)
     {
         var errors = new List<string>();
 
@@ -53,7 +53,7 @@ public class Rol
         Description = description;
     }
 
-    public static Rol Reconstitute(int rolId, string name, string description, DateTime createdAt)
+    public static Rol Reconstitute(int rolId, string name, string? description, DateTime createdAt)
     {
         return new Rol
         {

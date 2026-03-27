@@ -1,6 +1,6 @@
+using Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TaskEntity = Infrastructure.Persistence.Entities.Task;
 
 namespace Infrastructure.Persistence.Configurations;
 

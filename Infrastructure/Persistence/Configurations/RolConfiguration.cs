@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class RolConfiguration : IEntityTypeConfiguration<Rol>
+public class RolConfiguration : IEntityTypeConfiguration<RolEntity>
 {
-    public void Configure(EntityTypeBuilder<Rol> builder)
+    public void Configure(EntityTypeBuilder<RolEntity> builder)
     {
         builder.HasKey(r => r.RolId);
         builder.Property(r => r.RolId).ValueGeneratedOnAdd();
@@ -21,5 +21,7 @@ public class RolConfiguration : IEntityTypeConfiguration<Rol>
         builder.Property(r => r.CreatedAt)
             .HasColumnType("datetime")
             .HasDefaultValueSql("GETDATE()");
+
+        builder.HasIndex(r => r.Name).IsUnique();
     }
 }

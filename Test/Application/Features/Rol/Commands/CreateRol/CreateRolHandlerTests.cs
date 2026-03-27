@@ -1,12 +1,12 @@
 using Application.DTOs.Rol;
-using Application.Features.Rol.Commands.CreateRol;
-using RolEntity = Domain.Entities.Rol;
+using Application.Features.Roles.Commands.CreateRol;
+using Domain.Entities;
 using Domain.Ports;
 using Domain.Ports.Repositories;
 using FluentAssertions;
 using Moq;
 
-namespace Test.Application.Features.Rol.Commands.CreateRol;
+namespace Test.Application.Features.Roles.Commands.CreateRol;
 
 public class CreateRolHandlerTests
 {
@@ -25,11 +25,11 @@ public class CreateRolHandlerTests
     public async Task Handle_WithValidCommand_ReturnsRolResponse()
     {
         var command = new CreateRolCommand { Name = "Admin", Description = "Administrator role" };
-        var createdRol = RolEntity.Reconstitute(1, "Admin", "Administrator role", DateTime.UtcNow);
+        var createdRol = Rol.Reconstitute(1, "Admin", "Administrator role", DateTime.UtcNow);
 
         _rolRepositoryMock
-            .Setup(r => r.CreateAsync(It.IsAny<RolEntity>()))
-            .ReturnsAsync((Func<RolEntity>)(() => createdRol));
+            .Setup(r => r.CreateAsync(It.IsAny<Rol>()))
+            .ReturnsAsync((Func<Rol>)(() => createdRol));
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
@@ -43,26 +43,26 @@ public class CreateRolHandlerTests
     public async Task Handle_WithValidCommand_CallsCreateAsync()
     {
         var command = new CreateRolCommand { Name = "Admin", Description = "Description" };
-        var createdRol = RolEntity.Reconstitute(1, "Admin", "Description", DateTime.UtcNow);
+        var createdRol = Rol.Reconstitute(1, "Admin", "Description", DateTime.UtcNow);
 
         _rolRepositoryMock
-            .Setup(r => r.CreateAsync(It.IsAny<RolEntity>()))
-            .ReturnsAsync((Func<RolEntity>)(() => createdRol));
+            .Setup(r => r.CreateAsync(It.IsAny<Rol>()))
+            .ReturnsAsync((Func<Rol>)(() => createdRol));
 
         await _handler.Handle(command, CancellationToken.None);
 
-        _rolRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<RolEntity>()), Times.Once);
+        _rolRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Rol>()), Times.Once);
     }
 
     [Fact]
     public async Task Handle_WithValidCommand_CallsCommitAsync()
     {
         var command = new CreateRolCommand { Name = "Admin", Description = "Description" };
-        var createdRol = RolEntity.Reconstitute(1, "Admin", "Description", DateTime.UtcNow);
+        var createdRol = Rol.Reconstitute(1, "Admin", "Description", DateTime.UtcNow);
 
         _rolRepositoryMock
-            .Setup(r => r.CreateAsync(It.IsAny<RolEntity>()))
-            .ReturnsAsync((Func<RolEntity>)(() => createdRol));
+            .Setup(r => r.CreateAsync(It.IsAny<Rol>()))
+            .ReturnsAsync((Func<Rol>)(() => createdRol));
 
         await _handler.Handle(command, CancellationToken.None);
 
@@ -73,12 +73,12 @@ public class CreateRolHandlerTests
     public async Task Handle_WithValidCommand_CommitsAfterCreate()
     {
         var command = new CreateRolCommand { Name = "Admin", Description = "Description" };
-        var createdRol = RolEntity.Reconstitute(1, "Admin", "Description", DateTime.UtcNow);
+        var createdRol = Rol.Reconstitute(1, "Admin", "Description", DateTime.UtcNow);
         var callOrder = new List<string>();
 
         _rolRepositoryMock
-            .Setup(r => r.CreateAsync(It.IsAny<RolEntity>()))
-            .ReturnsAsync((Func<RolEntity>)(() => createdRol))
+            .Setup(r => r.CreateAsync(It.IsAny<Rol>()))
+            .ReturnsAsync((Func<Rol>)(() => createdRol))
             .Callback(() => callOrder.Add("CreateAsync"));
 
         _unitOfWorkMock

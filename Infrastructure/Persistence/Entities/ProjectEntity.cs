@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.Persistence.Entities;
+namespace Infrastructure.Persistence.Entities;
 
-public class Project
+public class ProjectEntity : IInactivatable
 {
     public int ProjectId { get; set; }
     public string Name { get; set; }
@@ -9,6 +9,6 @@ public class Project
     public int CreatedBy { get; set; }
     public bool IsActive { get; set; }
 
-    public User CreatedByUser { get; set; }
-    public List<Task> Tasks { get; set; }
+    public UserEntity CreatedByUser { get; set; }
+    public List<TaskEntity> Tasks { get; set; }
 }

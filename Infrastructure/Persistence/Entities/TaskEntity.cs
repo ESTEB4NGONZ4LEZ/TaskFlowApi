@@ -1,6 +1,6 @@
-﻿namespace Infrastructure.Persistence.Entities;
+namespace Infrastructure.Persistence.Entities;
 
-public class Task
+public class TaskEntity
 {
     public int TaskId { get; set; }
     public string Name { get; set; }
@@ -16,13 +16,13 @@ public class Task
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
-    public Project Project { get; set; }
-    public StateTask StateTask { get; set; }
-    public TaskPriority TaskPriority { get; set; }
-    public User CreatedByUser { get; set; }
-    public User AssignedToUser { get; set; }
+    public ProjectEntity Project { get; set; }
+    public StateTaskEntity StateTask { get; set; }
+    public TaskPriorityEntity TaskPriority { get; set; }
+    public UserEntity CreatedByUser { get; set; }
+    public UserEntity AssignedToUser { get; set; }
 
-    public List<RecordStateTask> RecordStateTasks { get; set; }
-    public List<TaskComment> TaskComments { get; set; }
-    public List<UserTask> UserTasks { get; set; }
+    public List<RecordStateTaskEntity> RecordStateTasks { get; set; }
+    public List<TaskCommentEntity> TaskComments { get; set; }
+    public List<UserTaskEntity> UserTasks { get; set; }
 }

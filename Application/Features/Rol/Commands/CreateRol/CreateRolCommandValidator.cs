@@ -2,7 +2,7 @@ using Application.Common;
 using Domain.Ports.Repositories;
 using FluentValidation;
 
-namespace Application.Features.Rol.Commands.CreateRol;
+namespace Application.Features.Roles.Commands.CreateRol;
 
 public class CreateRolCommandValidator : AbstractValidator<CreateRolCommand>
 {
