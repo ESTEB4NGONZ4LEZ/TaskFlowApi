@@ -81,4 +81,72 @@ public class RolTests
 
         rol.Name.Should().Be(name);
     }
+
+    [Fact]
+    public void Update_WithValidData_UpdatesProperties()
+    {
+        var rol = Rol.Create("Admin", "Old description");
+
+        rol.Update("SuperAdmin", "New description");
+
+        rol.Name.Should().Be("SuperAdmin");
+        rol.Description.Should().Be("New description");
+    }
+
+    [Fact]
+    public void Update_WithNullDescription_SetsDescriptionToNull()
+    {
+        var rol = Rol.Create("Admin", "Old description");
+
+        rol.Update("Admin", null);
+
+        rol.Description.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData(null)]
+    public void Update_WithEmptyName_ThrowsValidationException(string name)
+    {
+        var rol = Rol.Create("Admin", null);
+
+        var act = () => rol.Update(name, null);
+
+        act.Should().Throw<ValidationException>()
+            .Which.Errors.Should().Contain("Name is required.");
+    }
+
+    [Fact]
+    public void Update_WithNameExceedingMaxLength_ThrowsValidationException()
+    {
+        var rol = Rol.Create("Admin", null);
+
+        var act = () => rol.Update(new string('A', 51), null);
+
+        act.Should().Throw<ValidationException>()
+            .Which.Errors.Should().Contain("Name must not exceed 50 characters.");
+    }
+
+    [Fact]
+    public void Update_WithDescriptionExceedingMaxLength_ThrowsValidationException()
+    {
+        var rol = Rol.Create("Admin", null);
+
+        var act = () => rol.Update("Admin", new string('A', 151));
+
+        act.Should().Throw<ValidationException>()
+            .Which.Errors.Should().Contain("Description must not exceed 150 characters.");
+    }
+
+    [Fact]
+    public void Update_DoesNotModifyCreatedAt()
+    {
+        var rol = Rol.Create("Admin", null);
+        var createdAt = rol.CreatedAt;
+
+        rol.Update("SuperAdmin", null);
+
+        rol.CreatedAt.Should().Be(createdAt);
+    }
 }
