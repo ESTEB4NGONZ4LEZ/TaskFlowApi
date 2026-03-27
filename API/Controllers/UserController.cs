@@ -1,4 +1,5 @@
 using API.DTOs.User;
+using Application.Features.Users.Commands.AssignRol;
 using Application.Features.Users.Commands.CreateUser;
 using Application.Features.Users.Commands.UpdateUser;
 using MediatR;
@@ -21,6 +22,13 @@ public class UserController : BaseController
     public async Task<IActionResult> Update(int id, [FromBody] UpdateUserRequest request)
     {
         var response = await Mediator.Send(new UpdateUserCommand(id, request.UserName, request.Email, request.IsActive, request.Password));
+        return OkResponse(response);
+    }
+
+    [HttpPut("{id:int}/roles")]
+    public async Task<IActionResult> AssignRol(int id, [FromBody] AssignRolRequest request)
+    {
+        var response = await Mediator.Send(new AssignRolCommand(id, request.RolId));
         return OkResponse(response);
     }
 }
