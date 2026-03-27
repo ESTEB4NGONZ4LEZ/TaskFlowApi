@@ -24,17 +24,25 @@ public class ExceptionMiddleware
         }
         catch (ValidationException ex)
         {
+            _logger.LogWarning("[Validation] {Path} — {Errors}",
+                context.Request.Path, string.Join(" | ", ex.Errors));
+
             await WriteResponseAsync(context, HttpStatusCode.BadRequest,
                 ApiResponse<object>.Fail("Validation failed", ex.Errors));
         }
         catch (NotFoundException ex)
         {
+            _logger.LogWarning("[NotFound] {Path} — {Message}",
+                context.Request.Path, ex.Message);
+
             await WriteResponseAsync(context, HttpStatusCode.NotFound,
                 ApiResponse<object>.Fail(ex.Message));
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);
+            _logger.LogError(ex, "[Unhandled] {Method} {Path} — {ExceptionType}: {Message}",
+                context.Request.Method, context.Request.Path, ex.GetType().Name, ex.Message);
+
             await WriteResponseAsync(context, HttpStatusCode.InternalServerError,
                 ApiResponse<object>.Fail("An unexpected error occurred. Please try again later."));
         }
