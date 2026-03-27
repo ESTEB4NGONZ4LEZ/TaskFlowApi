@@ -17,6 +17,7 @@ public static class InfrastructureExtensions
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IRolRepository, RolRepository>();
+        services.AddScoped<IStateTaskRepository, StateTaskRepository>();
 
         return services;
     }

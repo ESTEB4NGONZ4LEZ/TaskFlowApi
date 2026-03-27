@@ -17,5 +17,7 @@ public class StateTaskConfiguration : IEntityTypeConfiguration<StateTaskEntity>
 
         builder.Property(s => s.Description)
             .HasMaxLength(150);
+
+        builder.HasIndex(s => s.Name).IsUnique();
     }
 }
