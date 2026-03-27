@@ -20,6 +20,7 @@ public static class InfrastructureExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IRolRepository, RolRepository>();
         services.AddScoped<IStateTaskRepository, StateTaskRepository>();
+        services.AddScoped<ITaskPriorityRepository, TaskPriorityRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserRolRepository, UserRolRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();

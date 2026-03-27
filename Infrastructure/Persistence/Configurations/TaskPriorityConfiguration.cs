@@ -18,6 +18,9 @@ public class TaskPriorityConfiguration : IEntityTypeConfiguration<TaskPriorityEn
         builder.Property(tp => tp.Description)
             .HasMaxLength(150);
 
-        builder.Property(tp => tp.Level);
+        builder.Property(tp => tp.Level).IsRequired();
+
+        builder.HasIndex(tp => tp.Name).IsUnique();
+        builder.HasIndex(tp => tp.Level).IsUnique();
     }
 }
